@@ -1,134 +1,270 @@
+<div align="center">
 
-# 유통데이터 기반 수요예측 및 매입최적화 시스템
+# 📊 유통데이터 기반 수요예측 및 매입최적화 시스템
 
-> **SARIMAX · Random Forest를 활용한 센터별 맞춤형 수요예측**
-> 팀명: 사고팔조 | 2025.09 - 2025.10
+### SARIMAX · Random Forest를 활용한 센터별 맞춤형 수요예측
+
+**팀명: 사고팔조** | 2024.06 - 2024.08
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+
+</div>
 
 ---
 
-## 문제 정의
+## 🎯 문제 정의
+
+<table>
+<tr>
+<td>
 
 유통업계는 **수동적 재고관리 방식**으로 인해 수요 변화에 신속히 대응하지 못하고 있습니다.
 
-**핵심 문제점**
-- 고정형 창고 구조로 실시간 수요 대응 한계
-- 경험 의존적 발주로 **재고회전율 악화**
-- **과잉재고·품절 빈번 발생** → 비용 손실
+### 핵심 문제점
 
-→ 데이터 기반 수요예측 및 자동 발주 시스템의 필요성 대두
+- 🏢 고정형 창고 구조로 실시간 수요 대응 한계
+- 📉 경험 의존적 발주로 **재고회전율 악화**
+- ⚠️ **과잉재고·품절 빈번 발생** → 비용 손실
+
+> 💡 데이터 기반 수요예측 및 자동 발주 시스템의 필요성 대두
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 해결 아이디어
+## 💡 해결 아이디어
 
 ### 센터별 데이터 특성 기반 맞춤형 모델링 전략
 
-**핵심 인사이트**
-1. **A센터**: 매출이 매월 일정, 계절·시즌 패턴 반복 → **시계열 모델(SARIMAX)** 선정
-2. **B센터**: 월말 집중 매출, 비정형 패턴 → **머신러닝닝 모델(Random Forest)** 선정
+<table>
+<tr>
+<td width="50%">
 
-**차별화 전략**
-- 센터별 데이터 특성 정밀 분석 후 모델 차별화
-- 외부데이터(기상·공휴일·CPI·물류비) 결합으로 예측 정교화
-- EOQ/ROP 지표 연동 자동 발주 시스템 구축
+#### 🔵 A센터
+**매출이 매월 일정, 계절·시즌 패턴 반복**
+
+→ **시계열 모델(SARIMAX)** 선정
+
+</td>
+<td width="50%">
+
+#### 🟢 B센터
+**월말 집중 매출, 비정형 패턴**
+
+→ **머신러닝 모델(Random Forest)** 선정
+
+</td>
+</tr>
+</table>
+
+### 🎯 차별화 전략
+
+```
+✅ 센터별 데이터 특성 정밀 분석 후 모델 차별화
+✅ 외부데이터(기상·공휴일·CPI·물류비) 결합으로 예측 정교화
+✅ EOQ/ROP 지표 연동 자동 발주 시스템 구축
+```
 
 ---
 
-## 데이터 전처리 및 모델링
+## 🔧 데이터 전처리 및 모델링
 
-### 1. 데이터 전처리 (A센터 담당)
+### 1️⃣ 데이터 전처리 (A센터 담당)
 
-**데이터 품질 개선**
+#### 📋 데이터 품질 개선
 - 풀필먼트 구조 전환(2021-22: 0 → 2023-24: 1) 변수화
-- 주최측 누락 데이터 **7건 복원** (매출 4,635만원, 판매 25,666만원)
+- 주최측 누락 분류 데이터 **2만건 복원**
 
-**외부데이터 수집 및 결합**
+#### 🌐 외부데이터 수집 및 결합
 - 기상관측(기온·강수량·적설), 공휴일, CPI, 물류보관비 데이터 수집
 - 4개 출처(KOSIS, 기상청, 공공데이터포털) 데이터 전처리·결합
 
-**파생변수 생성**
+#### 🔄 파생변수 생성
 - **EOQ**(경제적 주문량), **ROP**(재주문점), **ITR**(재고회전율) 산출
 - 최종 데이터셋: 매입·매출 + 외부파생변수 6가지
 
-**정상성 검증**
-- ADF Test 수행 → p-value = 4.93 × 10⁻⁶ < 0.05 (정상성 확인)
+#### ✔️ 정상성 검증
+```
+ADF Test 결과: p-value = 4.93 × 10⁻⁶ < 0.05 ✅ 정상성 확인
+```
 
-### 2. A센터 SARIMAX 모델링 및 최적화
+### 2️⃣ A센터 SARIMAX 모델링 및 최적화
 
-**8개 모델 평가 → SARIMAX 선정**
+#### 🏆 8개 모델 평가 → SARIMAX 선정
+
+<div align="center">
+
 | 모델 | MAPE | 비고 |
-|------|------|------|
-| **SARIMAX** | **10.00%** | ✅ 최종 선정 |
-| MA3 | 13.30% | |
-| ARIMA | 18.10% | |
-| Random Forest | 18.87% | |
+|:----:|:----:|:----:|
+| **SARIMAX** | **10.00%** | 🏆 최종 선정 |
+| MA3 | 13.30% | - |
+| ARIMA | 18.10% | - |
+| Random Forest | 18.87% | - |
 
-**3단계 최적화 프로세스**
-1. 기본 SARIMAX: **46.68%** MAPE
-2. 외부변수 6개 투입 (EOQ, 평균가격, CPI, 주최주수량, 주최단수량, 공휴일): **5.83%** MAPE
-3. 하이퍼파라미터 튜닝 (계절성 주기, 추세 방식, ARIMA 차수): **2.54%%** MAPE
+</div>
 
-→ **18배 성능 향상** (46.68% → 2.54%) 달성
+#### 🚀 3단계 최적화 프로세스
 
-### 3. 현장 적용 자동화 시스템 개발
+```mermaid
+graph LR
+    A[기본 SARIMAX<br/>46.68% MAPE] -->|외부변수 6개 투입| B[개선 SARIMAX<br/>5.83% MAPE]
+    B -->|하이퍼파라미터 튜닝| C[최종 SARIMAX<br/>2.54% MAPE]
+```
 
-**8-Model 지능형 추천 알고리즘**
-- 데이터 특성 자동 분석 (계절성, 추세, 변동성, 분포)
-- 8개 모델 자동 비교 (SARIMAX, ARIMA, Prophet, LSTM, XGBoost, Random Forest, LR, ES)
-- 5-Fold 시계열 교차검증 + Optuna 베이지안 최적화
-- Feature Importance 기반 자동 변수 선정
+| 단계 | 적용 내용 | MAPE |
+|:----:|----------|:----:|
+| 1️⃣ | 기본 SARIMAX | **46.68%** |
+| 2️⃣ | 외부변수 6개 투입<br/>(EOQ, 평균가격, CPI, 주최주수량, 주최단수량, 공휴일) | **5.83%** |
+| 3️⃣ | 하이퍼파라미터 튜닝<br/>(계절성 주기, 추세 방식, ARIMA 차수) | **2.54%** |
 
-→ 비전문가도 즉시 활용 가능한 **End-to-End 자동화** 달성
+> 📈 **18배 성능 향상** (46.68% → 2.54%) 달성
+
+### 3️⃣ 현장 적용 자동화 시스템 개발
+
+#### 🤖 8-Model 지능형 추천 알고리즘
+
+<table>
+<tr>
+<td>
+
+**자동화 기능**
+- 🔍 데이터 특성 자동 분석 (계절성, 추세, 변동성, 분포)
+- 📊 8개 모델 자동 비교 (SARIMAX, ARIMA, Prophet, LSTM, XGBoost, Random Forest, LR, ES)
+- ✅ 5-Fold 시계열 교차검증 + Optuna 베이지안 최적화
+- 🎯 Feature Importance 기반 자동 변수 선정
+
+</td>
+</tr>
+</table>
+
+> 🎉 비전문가도 즉시 활용 가능한 **End-to-End 자동화** 달성
 
 ---
 
-## 결과
+## 📈 결과
 
-### 2024년 실제 매출 비교 (모델 성능 검증)
+### 🎯 2024년 실제 매출 비교 (모델 성능 검증)
 
-**A센터 예측 성능**
-- 생수·음료·건강: **오차율 1.74%**
-- 신선식품: **오차율 3.50%**
+<div align="center">
 
-**핵심 성과**
-- SARIMAX 최적화로 **46.68% → 5.83%** 오차율 개선 (8.0배 향상)
-- 2024년 실제 매출 대비 **2% 미만 오차** 달성
-- 2025년 1~3월 수요예측 완료 및 제출
+#### A센터 예측 성능
 
-**기대 효과**
-- 데이터 기반 발주로 **재고회전율 향상**
-- **과잉재고·품절 최소화**로 비용 절감
-- 자동화 시스템으로 **의사결정 시간 단축**
+| 품목 | 오차율 |
+|:----:|:------:|
+| 생수·음료·건강 | **1.74%** 🏆 |
+| 신선식품 | **3.50%** |
+
+</div>
+
+### ⭐ 핵심 성과
+
+```
+✨ SARIMAX 최적화로 46.68% → 5.83% 오차율 개선 (8.0배 향상)
+🎯 2024년 실제 매출 대비 2% 미만 오차 달성
+📊 2025년 1~3월 수요예측 완료 및 제출
+```
+
+### 💼 기대 효과
+
+<table>
+<tr>
+<td width="33%" align="center">
+
+#### 📊 재고회전율 향상
+데이터 기반 발주로<br/>효율성 극대화
+
+</td>
+<td width="33%" align="center">
+
+#### 💰 비용 절감
+과잉재고·품절<br/>최소화
+
+</td>
+<td width="33%" align="center">
+
+#### ⚡ 의사결정 가속화
+자동화 시스템으로<br/>시간 단축
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 제 역할
+## 👤 제 역할
 
-### 프로젝트 리더 / TA
+<table>
+<tr>
+<td>
+
+### 🎯 프로젝트 리더 / TA
 - 프로젝트 전체 기획 및 일정 관리
 - 팀원 역할 분배 및 진행 상황 점검
 - 센터별 모델링 전략 수립 및 의사결정
 
-### A센터 데이터 전처리 담당
+</td>
+</tr>
+<tr>
+<td>
+
+### 📊 A센터 데이터 전처리 담당
 - 4개 외부데이터 출처에서 데이터 수집·전처리·결합
 - 파생변수(EOQ, ROP, ITR) 설계 및 생성
 - 누락 데이터 복원 (7건, 3억 규모)
 - ADF Test 기반 정상성 검증
 
-### SARIMAX 모델링 및 최적화
+</td>
+</tr>
+<tr>
+<td>
+
+### 🏆 SARIMAX 모델링 및 최적화
 - 8개 모델 평가 후 SARIMAX 선정 (MAPE 10.00%)
 - Feature Importance 기반 변수 선정 (6개 최종 선택)
 - 3단계 최적화로 **46.68% → 5.83%** 성능 개선
 - 2024년 실제 매출 대비 **1.74% 오차** 달성
 
-### 전체 데이터 파이프라인 설계
+</td>
+</tr>
+<tr>
+<td>
+
+### 🔧 전체 데이터 파이프라인 설계
 - 데이터 수집 → 전처리 → 모델링 → 평가 전 과정 설계
 - 8-Model 지능형 추천 알고리즘 개발
 - 자동화 시스템 구축으로 현장 적용 가능성 확보
 
+</td>
+</tr>
+</table>
+
 ---
 
-**기술 스택**: Python, Statsmodels(SARIMAX), Prophet, scikit-learn, XGBoost, Pandas, NumPy
-**개발 환경**: Google Colab, Slack
-**프로젝트 기간**: 2024.06 - 2024.08
-**팀 구성**: 4명 (김명석, 모지윤, 방혜원, 이승규)
+## 🛠️ 기술 스택 & 프로젝트 정보
+
+<div align="center">
+
+### 기술 스택
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge)
+![Statsmodels](https://img.shields.io/badge/Statsmodels-4051B5?style=for-the-badge)
+
+### 개발 환경
+![Google Colab](https://img.shields.io/badge/Google_Colab-F9AB00?style=for-the-badge&logo=google-colab&logoColor=white)
+![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
+
+---
+
+**📅 프로젝트 기간**: 2024.06 - 2024.08
+
+**👥 팀 구성**: 4명 (김명석, 모지윤, 방혜원, 이승규)
+
+</div>
