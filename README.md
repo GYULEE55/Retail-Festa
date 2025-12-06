@@ -4,7 +4,7 @@
 
 ### SARIMAX · Random Forest를 활용한 센터별 맞춤형 수요예측
 
-**팀명: 사고팔조** | 2024.06 - 2024.08
+**팀명: 사고팔조** | 2025.09 - 2025.10
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
