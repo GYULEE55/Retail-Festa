@@ -137,7 +137,7 @@ graph LR
 - 📊 8개 모델 자동 비교 (SARIMAX, ARIMA, Prophet, LSTM, XGBoost, Random Forest, LR, ES)
 - ✅ 특성 기반 점수화로 Top 3 모델 자동 추천 + 신뢰도 계산
 - 🎯 EOQ/ROP 연동 매입 추천 및 비용 변화 자동 분석
-- 🖼️ 통합 대시보드 + 포트폴리오 분할 이미지 자동 저장
+- 🖼️ 통합 대시보드 +  분할 이미지 자동 저장
 
 </td>
 </tr>
